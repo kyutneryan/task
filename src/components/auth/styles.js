@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
+    margin: 5,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 16,
@@ -23,6 +24,9 @@ export const styles = StyleSheet.create({
   },
   form: {
     marginTop: 20,
+  },
+  inputs: {
+    height: 180,
   },
   title: {
     fontSize: 16,

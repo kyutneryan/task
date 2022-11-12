@@ -1,19 +1,24 @@
 import React from 'react'
 import { TextInput } from 'react-native'
-import { LIGHT_BLUE_COLOR } from '../../../constants/colors'
+import { GRAY_COLOR, LIGHT_BLUE_COLOR } from '../../../constants/colors'
+import FormErrorMessage from '../FormErrorMessage/FormErrorMessage'
 import { styles } from './styles'
 
-function TextField({ placeholder, value, onChange, ...restProps }) {
+function TextField({ placeholder, value, onChange, error, ...restProps }) {
   return (
-    <TextInput
-      autoCapitalize="none"
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      style={styles.input}
-      selectionColor={LIGHT_BLUE_COLOR}
-      {...restProps}
-    />
+    <>
+      <TextInput
+        autoCapitalize="none"
+        value={value}
+        onChangeText={onChange}
+        placeholder={placeholder}
+        style={styles.input({ error })}
+        placeholderTextColor={GRAY_COLOR}
+        selectionColor={LIGHT_BLUE_COLOR}
+        {...restProps}
+      />
+      <FormErrorMessage text={error?.message || ''} />
+    </>
   )
 }
 

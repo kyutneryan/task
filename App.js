@@ -1,8 +1,8 @@
 import React from 'react'
-import Auth from './src/components/auth/Auth'
+import AuthNavigation from './src/components/auth/AuthNavigation'
 
 function App() {
-  return <Auth />
+  return <AuthNavigation />
 }
 
 export default App

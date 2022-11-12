@@ -1,0 +1,6 @@
+node_modules/
+.eslintrc.js
+__tests__
+babel.config.js
+metro.config.js
+env.js

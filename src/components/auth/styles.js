@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   inputs: {
-    height: 180,
+    marginBottom: 20,
   },
   title: {
     fontSize: 16,

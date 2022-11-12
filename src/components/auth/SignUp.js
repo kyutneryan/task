@@ -12,7 +12,7 @@ import AuthScreen from './AuthScreen'
 import { auth } from '../../../firebase'
 import { styles } from './styles'
 
-const defaultValues = { email: '', password: '' }
+const defaultValues = { email: '', password: '', confirmPassword: '' }
 
 const validationSchema = yup.object({
   email: yup
@@ -26,6 +26,10 @@ const validationSchema = yup.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
       'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number'
     ),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], VALIDATION_MESSAGES.passwordsDontMatch)
+    .required(VALIDATION_MESSAGES.requiredPassword),
 })
 
 function SignUp({ navigation }) {
@@ -91,6 +95,20 @@ function SignUp({ navigation }) {
               value={value}
               onChange={onChange}
               error={errors.password}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="confirmPassword"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              secureTextEntry
+              placeholder="Confirm Password"
+              autoComplete="password"
+              value={value}
+              onChange={onChange}
+              error={errors.confirmPassword}
             />
           )}
         />

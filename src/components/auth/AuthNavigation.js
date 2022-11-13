@@ -9,19 +9,21 @@ import { styles } from './styles'
 
 const { Navigator, Screen } = createMaterialTopTabNavigator()
 
+const screenOptions = {
+  swipeEnabled: false,
+  tabBarActiveTintColor: DARK_BLUE_COLOR,
+  tabBarIndicatorStyle: {
+    backgroundColor: LIGHT_BLUE_COLOR,
+  },
+}
+
 const AuthNavigation = () => (
   <SafeAreaView style={styles.safeAreaView} edges={['top']}>
     <Navigator
       initialRouteName={SIGN_IN_ROUTE_NAME}
       backBehavior="none"
       keyboardDismissMode="on-drag"
-      screenOptions={{
-        swipeEnabled: false,
-        tabBarActiveTintColor: DARK_BLUE_COLOR,
-        tabBarIndicatorStyle: {
-          backgroundColor: LIGHT_BLUE_COLOR,
-        },
-      }}
+      screenOptions={screenOptions}
     >
       <Screen name={SIGN_IN_ROUTE_NAME} component={SignIn} />
       <Screen name={SIGN_UP_ROUTE_NAME} component={SignUp} />

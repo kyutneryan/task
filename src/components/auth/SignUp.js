@@ -1,22 +1,33 @@
 import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
+import * as yup from 'yup'
+import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import Toast from 'react-native-toast-message'
 import { Controller, useForm } from 'react-hook-form'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { firebaseApp } from '../../../firebase'
 import { SIGN_IN_ROUTE_NAME } from '../../constants/routes'
 import { ERROR_MESSAGES, VALIDATION_MESSAGES } from '../../constants/errors'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
-import { firebaseApp } from '../../../firebase'
-import { styles } from './styles'
 import { setIsLoading } from '../../redux/loading/loadingSlice'
+import { styles } from './styles'
+import { SUCCESS_MESSAGE, TOAST_MESSAGE_TYPES } from '../../constants/common'
 
-const defaultValues = { email: '', password: '', confirmPassword: '' }
+const VALUE_NAMES = {
+  email: 'email',
+  password: 'password',
+  confirmPassword: 'confirmPassword',
+}
+
+const defaultValues = {
+  [VALUE_NAMES.email]: '',
+  [VALUE_NAMES.password]: '',
+  [VALUE_NAMES.confirmPassword]: '',
+}
 
 const validationSchema = yup.object({
   email: yup
@@ -25,14 +36,12 @@ const validationSchema = yup.object({
     .required(VALIDATION_MESSAGES.requiredEmail),
   password: yup
     .string()
-    .required('Please Enter your password')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number'
-    ),
+    .required(VALIDATION_MESSAGES.requiredPassword)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, VALIDATION_MESSAGES.password),
+  // 8 Characters, One Uppercase, One Lowercase and One Number
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], VALIDATION_MESSAGES.passwordsDontMatch)
+    .oneOf([yup.ref(VALUE_NAMES.password), null], VALIDATION_MESSAGES.passwordsDontMatch)
     .required(VALIDATION_MESSAGES.requiredPassword),
 })
 
@@ -45,10 +54,7 @@ const SignUp = ({ navigation }) => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues,
-    resolver: yupResolver(validationSchema),
-  })
+  } = useForm({ defaultValues, resolver: yupResolver(validationSchema) })
 
   const onSignUp = async ({ email, password }) => {
     try {
@@ -57,15 +63,15 @@ const SignUp = ({ navigation }) => {
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
 
       if (userCredentials) {
-        Toast.show({ type: 'success', text1: 'Success' })
+        Toast.show({ type: TOAST_MESSAGE_TYPES.success, text1: SUCCESS_MESSAGE })
         reset(defaultValues)
         navigation.navigate(SIGN_IN_ROUTE_NAME, { email: userCredentials.user.email })
       } else {
-        Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+        Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: ERROR_MESSAGES.somethingWentWrong })
       }
       dispatch(setIsLoading(false))
     } catch (e) {
-      Toast.show({ type: 'error', text1: e.message })
+      Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: e.message })
       dispatch(setIsLoading(false))
     }
   }
@@ -86,7 +92,7 @@ const SignUp = ({ navigation }) => {
       <View style={styles.inputs}>
         <Controller
           control={control}
-          name="email"
+          name={VALUE_NAMES.email}
           render={({ field: { onChange, value } }) => (
             <TextField
               placeholder="Email"
@@ -100,7 +106,7 @@ const SignUp = ({ navigation }) => {
         />
         <Controller
           control={control}
-          name="password"
+          name={VALUE_NAMES.password}
           render={({ field: { onChange, value } }) => (
             <TextField
               secureTextEntry
@@ -114,7 +120,7 @@ const SignUp = ({ navigation }) => {
         />
         <Controller
           control={control}
-          name="confirmPassword"
+          name={VALUE_NAMES.confirmPassword}
           render={({ field: { onChange, value } }) => (
             <TextField
               secureTextEntry

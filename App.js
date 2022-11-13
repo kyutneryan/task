@@ -14,6 +14,7 @@ import {
 } from './src/redux/auth/authSlice'
 import CircularLoading from './src/components/core/Loading/CircularLoading'
 import { selectIsLoading } from './src/redux/loading/loadingSlice'
+import { USER_UID } from './src/constants/common'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
-      const isUserExist = await AsyncStorage.getItem('userUid')
+      const isUserExist = await AsyncStorage.getItem(USER_UID)
 
       if (user && isUserExist) {
         const { uid, displayName, lastLoginAt, email } = user

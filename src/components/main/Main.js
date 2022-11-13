@@ -8,6 +8,7 @@ import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { firebaseApp } from '../../../firebase'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
+import { USER_UID } from '../../constants/common'
 import { ERROR_MESSAGES } from '../../constants/errors'
 import { setIsLoading } from '../../redux/loading/loadingSlice'
 import CircularLoading from '../core/Loading/CircularLoading'
@@ -35,7 +36,7 @@ const Main = () => {
   const signOut = async () => {
     dispatch(setIsLoading(true))
     try {
-      await AsyncStorage.setItem('userUid', '')
+      await AsyncStorage.setItem(USER_UID, '')
       await auth.signOut()
       dispatch(setIsLoading(false))
     } catch {

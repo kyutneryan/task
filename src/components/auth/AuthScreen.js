@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, ScrollView } from 'react-native'
-import { styles } from './styles'
 import Footer from './Footer'
+import { styles } from './styles'
 
 const AuthScreen = ({ children, title, footerText, buttonTitle, footerAction }) => (
   <ScrollView

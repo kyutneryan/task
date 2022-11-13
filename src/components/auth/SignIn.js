@@ -32,7 +32,7 @@ const validationSchema = yup.object({
     ),
 })
 
-function SignIn({ navigation, route }) {
+const SignIn = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { email } = route.params || {}
   const auth = getAuth(firebaseApp)

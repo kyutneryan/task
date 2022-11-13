@@ -33,7 +33,7 @@ const validationSchema = yup.object({
     .required(VALIDATION_MESSAGES.requiredPassword),
 })
 
-function SignUp({ navigation }) {
+const SignUp = ({ navigation }) => {
   const {
     control,
     reset,

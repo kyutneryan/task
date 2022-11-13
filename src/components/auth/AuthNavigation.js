@@ -9,26 +9,24 @@ import { styles } from './styles'
 
 const { Navigator, Screen } = createMaterialTopTabNavigator()
 
-function AuthNavigation() {
-  return (
-    <SafeAreaView style={styles.safeAreaView} edges={['top']}>
-      <Navigator
-        initialRouteName={SIGN_IN_ROUTE_NAME}
-        backBehavior="none"
-        keyboardDismissMode="on-drag"
-        screenOptions={{
-          swipeEnabled: false,
-          tabBarActiveTintColor: DARK_BLUE_COLOR,
-          tabBarIndicatorStyle: {
-            backgroundColor: LIGHT_BLUE_COLOR,
-          },
-        }}
-      >
-        <Screen name={SIGN_IN_ROUTE_NAME} component={SignIn} />
-        <Screen name={SIGN_UP_ROUTE_NAME} component={SignUp} />
-      </Navigator>
-    </SafeAreaView>
-  )
-}
+const AuthNavigation = () => (
+  <SafeAreaView style={styles.safeAreaView} edges={['top']}>
+    <Navigator
+      initialRouteName={SIGN_IN_ROUTE_NAME}
+      backBehavior="none"
+      keyboardDismissMode="on-drag"
+      screenOptions={{
+        swipeEnabled: false,
+        tabBarActiveTintColor: DARK_BLUE_COLOR,
+        tabBarIndicatorStyle: {
+          backgroundColor: LIGHT_BLUE_COLOR,
+        },
+      }}
+    >
+      <Screen name={SIGN_IN_ROUTE_NAME} component={SignIn} />
+      <Screen name={SIGN_UP_ROUTE_NAME} component={SignUp} />
+    </Navigator>
+  </SafeAreaView>
+)
 
 export default AuthNavigation

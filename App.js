@@ -13,7 +13,7 @@ import {
   setLoggedInUser,
 } from './src/redux/auth/authSlice'
 
-function App() {
+const App = () => {
   const dispatch = useDispatch()
   const loggedInUser = useSelector(selectLoggedInUser)
   const isAuthenticating = useSelector(selectIsAuthenticating)

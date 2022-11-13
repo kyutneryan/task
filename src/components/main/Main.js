@@ -19,7 +19,7 @@ const Item = ({ item }) => (
   </View>
 )
 
-function Main() {
+const Main = () => {
   const [photos, setPhotos] = useState([])
   const [activeSlide, setActiveSlide] = useState(0)
   const [error, setError] = useState(null)

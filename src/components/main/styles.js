@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GHOST_WHITE_COLOR,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   imageBox: { width, height: width, padding: 12 },
   image: { width: '100%', height: '100%', borderRadius: 16 },

@@ -8,3 +8,7 @@ export const VALIDATION_MESSAGES = {
 export const ERROR_MESSAGES = {
   somethingWentWrong: 'Something went wrong',
 }
+
+export const INFO_MESSAGES = {
+  accessToPhotos: 'Go to Settings > TaskApp > Photos and select All Photos',
+}

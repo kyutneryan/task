@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { firebaseApp } from '../../../firebase'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
-import { USER_UID } from '../../constants/common'
+import { TOAST_MESSAGE_TYPES, USER_UID } from '../../constants/common'
 import { ERROR_MESSAGES } from '../../constants/errors'
 import { setIsLoading } from '../../redux/loading/loadingSlice'
 import CircularLoading from '../core/Loading/CircularLoading'
@@ -41,7 +41,7 @@ const Main = () => {
       dispatch(setIsLoading(false))
     } catch {
       dispatch(setIsLoading(false))
-      Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+      Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: ERROR_MESSAGES.somethingWentWrong })
     }
   }
 
@@ -54,7 +54,7 @@ const Main = () => {
       setLoading(false)
     } catch {
       setLoading(false)
-      Toast.show({ type: 'info', text2: ERROR_MESSAGES.somethingWentWrong })
+      Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: ERROR_MESSAGES.somethingWentWrong })
     }
   }, [])
 

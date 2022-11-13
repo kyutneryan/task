@@ -2,6 +2,7 @@ import { PermissionsAndroid, Platform } from 'react-native'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import Toast from 'react-native-toast-message'
 import { ERROR_MESSAGES } from '../../constants/errors'
+import { TOAST_MESSAGE_TYPES } from '../../constants/common'
 
 async function hasAndroidPermission() {
   try {
@@ -15,7 +16,7 @@ async function hasAndroidPermission() {
     const status = await PermissionsAndroid.request(permission)
     return status === 'granted'
   } catch {
-    Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+    Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: ERROR_MESSAGES.somethingWentWrong })
   }
 }
 
@@ -30,6 +31,6 @@ export async function getPhotos() {
       assetType: 'Photos',
     })
   } catch {
-    Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+    Toast.show({ type: TOAST_MESSAGE_TYPES.error, text1: ERROR_MESSAGES.somethingWentWrong })
   }
 }

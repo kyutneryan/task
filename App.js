@@ -1,13 +1,18 @@
 import React from 'react'
 import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
 import AuthNavigation from './src/components/auth/AuthNavigation'
 import Main from './src/components/main/Main'
+import { selectIsAuthenticating, selectLoggedInUser } from './src/redux/auth/authSlice'
 
 function App() {
-  if (true) {
+  const loggedInUser = useSelector(selectLoggedInUser)
+  const isAuthenticating = useSelector(selectIsAuthenticating)
+
+  if (!loggedInUser) {
     return (
       <>
-        <Main />
+        <AuthNavigation />
         <Toast />
       </>
     )
@@ -15,7 +20,7 @@ function App() {
 
   return (
     <>
-      <AuthNavigation />
+      <Main />
       <Toast />
     </>
   )

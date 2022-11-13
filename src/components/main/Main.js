@@ -8,8 +8,9 @@ import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { firebaseApp } from '../../../firebase'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
-import { ERROR_MESSAGES, INFO_MESSAGES } from '../../constants/errors'
+import { ERROR_MESSAGES } from '../../constants/errors'
 import { setIsLoading } from '../../redux/loading/loadingSlice'
+import CircularLoading from '../core/Loading/CircularLoading'
 import { styles } from './styles'
 import { getPhotos } from './utils'
 
@@ -24,7 +25,6 @@ const Item = ({ item }) => (
 const Main = () => {
   const [photos, setPhotos] = useState([])
   const [activeSlide, setActiveSlide] = useState(0)
-  const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   const auth = getAuth(firebaseApp)
@@ -48,13 +48,12 @@ const Main = () => {
     try {
       const photosFromLib = await getPhotos()
       if (photosFromLib) {
-        setPhotos(photosFromLib.edges)
+        setPhotos(photosFromLib?.edges || [])
       }
       setLoading(false)
     } catch {
       setLoading(false)
       Toast.show({ type: 'info', text2: ERROR_MESSAGES.somethingWentWrong })
-      setError({ message: INFO_MESSAGES.accessToPhotos })
     }
   }, [])
 
@@ -64,10 +63,13 @@ const Main = () => {
     getPhonePhotos()
   }, [getPhonePhotos])
 
+  if (loading) {
+    return <CircularLoading backgroundColor="white" />
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView} edges={['top']}>
       <View style={styles.root}>
-        {!!error && <Text style={styles.text}>{error.message}</Text>}
         {!isEmpty ? (
           <>
             <Carousel

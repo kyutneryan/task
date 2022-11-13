@@ -20,12 +20,16 @@ async function hasAndroidPermission() {
 }
 
 export async function getPhotos() {
-  if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-    return []
-  }
+  try {
+    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+      return []
+    }
 
-  return CameraRoll.getPhotos({
-    first: 7,
-    assetType: 'Photos',
-  })
+    return CameraRoll.getPhotos({
+      first: 7,
+      assetType: 'Photos',
+    })
+  } catch {
+    Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+  }
 }

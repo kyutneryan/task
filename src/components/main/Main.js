@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Toast from 'react-native-toast-message'
 import { firebaseApp } from '../../../firebase'
-import { DARK_BLUE_COLOR, LIGHT_BLUE_COLOR } from '../../constants/colors'
+import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import { ERROR_MESSAGES, INFO_MESSAGES } from '../../constants/errors'
 import { styles } from './styles'
 import { getPhotos } from './utils'
@@ -64,7 +64,7 @@ const Main = () => {
               onSnapToItem={(index) => setActiveSlide(index)}
             />
             <Text style={styles.text}>{currentUser.email}</Text>
-            <Button title="Sign Out" color={DARK_BLUE_COLOR} onPress={signOut} />
+            <Button title="Sign Out" color={LIGHT_BLUE_COLOR} onPress={signOut} />
             <Pagination
               dotsLength={photos.length}
               activeDotIndex={activeSlide}

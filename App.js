@@ -12,11 +12,14 @@ import {
   setIsAuthenticating,
   setLoggedInUser,
 } from './src/redux/auth/authSlice'
+import CircularLoading from './src/components/core/Loading/CircularLoading'
+import { selectIsLoading } from './src/redux/loading/loadingSlice'
 
 const App = () => {
   const dispatch = useDispatch()
   const loggedInUser = useSelector(selectLoggedInUser)
   const isAuthenticating = useSelector(selectIsAuthenticating)
+  const isLoading = useSelector(selectIsLoading)
 
   const auth = getAuth(firebaseApp)
 
@@ -42,8 +45,7 @@ const App = () => {
   }, [dispatch, loggedInUser])
 
   if (isAuthenticating) {
-    // there is should be loading
-    return null
+    return <CircularLoading />
   }
 
   if (!loggedInUser) {
@@ -51,6 +53,7 @@ const App = () => {
       <>
         <AuthNavigation />
         <Toast />
+        {isLoading && <CircularLoading />}
       </>
     )
   }
@@ -59,6 +62,7 @@ const App = () => {
     <>
       <Main />
       <Toast />
+      {isLoading && <CircularLoading />}
     </>
   )
 }

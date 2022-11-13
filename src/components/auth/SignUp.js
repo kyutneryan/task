@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, View } from 'react-native'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import Toast from 'react-native-toast-message'
 import { Controller, useForm } from 'react-hook-form'
 import { SIGN_IN_ROUTE_NAME } from '../../constants/routes'
@@ -9,7 +10,7 @@ import { VALIDATION_MESSAGES } from '../../constants/errors'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
-import { auth } from '../../../firebase'
+import { firebaseApp } from '../../../firebase'
 import { styles } from './styles'
 
 const defaultValues = { email: '', password: '', confirmPassword: '' }
@@ -45,12 +46,10 @@ function SignUp({ navigation }) {
 
   const onSignUp = async ({ email, password }) => {
     try {
-      const userCredentials = await auth.createUserWithEmailAndPassword(email, password)
+      const auth = getAuth(firebaseApp)
+      const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
       if (userCredentials) {
-        Toast.show({
-          type: 'success',
-          text1: 'Success',
-        })
+        Toast.show({ type: 'success', text1: 'Success' })
         reset(defaultValues)
         navigation.navigate(SIGN_IN_ROUTE_NAME, { email })
       }

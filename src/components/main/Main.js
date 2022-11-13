@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Toast from 'react-native-toast-message'
 import { firebaseApp } from '../../../firebase'
-import { DARK_BLUE_COLOR } from '../../constants/colors'
+import { DARK_BLUE_COLOR, LIGHT_BLUE_COLOR } from '../../constants/colors'
 import { ERROR_MESSAGES, INFO_MESSAGES } from '../../constants/errors'
 import { styles } from './styles'
 import { getPhotos } from './utils'
@@ -71,13 +71,13 @@ const Main = () => {
               dotStyle={styles.dot}
               inactiveDotOpacity={0.2}
               inactiveDotScale={0.7}
-              animatedDuration={100}
+              animatedDuration={10}
             />
           </>
         ) : (
           <>
             <Text style={styles.text}>No Photos Yet</Text>
-            <Button title="Sign Out" color={DARK_BLUE_COLOR} onPress={signOut} />
+            <Button title="Sign Out" color={LIGHT_BLUE_COLOR} onPress={signOut} />
           </>
         )}
       </View>

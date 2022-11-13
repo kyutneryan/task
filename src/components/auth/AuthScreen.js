@@ -7,6 +7,7 @@ const AuthScreen = ({ children, title, footerText, buttonTitle, footerAction }) 
   <ScrollView
     contentContainerStyle={styles.rootContent}
     keyboardShouldPersistTaps="handled"
+    keyboardDismissMode="on-drag"
     style={styles.root}
   >
     <View>

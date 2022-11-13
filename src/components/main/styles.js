@@ -21,4 +21,11 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: DARK_BLUE_COLOR,
   },
+  email: {
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 16,
+    color: DARK_BLUE_COLOR,
+    marginBottom: 10,
+  },
 })

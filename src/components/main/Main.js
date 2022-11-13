@@ -1,8 +1,12 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getAuth } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, Text, View } from 'react-native'
+import { Button, Dimensions, Image, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Toast from 'react-native-toast-message'
+import { firebaseApp } from '../../../firebase'
+import { DARK_BLUE_COLOR } from '../../constants/colors'
 import { ERROR_MESSAGES, INFO_MESSAGES } from '../../constants/errors'
 import { styles } from './styles'
 import { getPhotos } from './utils'
@@ -19,6 +23,18 @@ function Main() {
   const [photos, setPhotos] = useState([])
   const [activeSlide, setActiveSlide] = useState(0)
   const [error, setError] = useState(null)
+
+  const auth = getAuth(firebaseApp)
+  const { currentUser } = auth
+
+  const signOut = async () => {
+    try {
+      await AsyncStorage.setItem('isUserExist', false)
+      await auth.signOut()
+    } catch {
+      Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+    }
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -47,6 +63,8 @@ function Main() {
               itemWidth={width}
               onSnapToItem={(index) => setActiveSlide(index)}
             />
+            <Text style={styles.email}>{currentUser.email}</Text>
+            <Button title="Sign Out" color={DARK_BLUE_COLOR} onPress={signOut} />
             <Pagination
               dotsLength={photos.length}
               activeDotIndex={activeSlide}

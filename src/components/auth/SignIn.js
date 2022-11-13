@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Controller, useForm } from 'react-hook-form'
 import Toast from 'react-native-toast-message'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
@@ -12,6 +14,7 @@ import AuthScreen from './AuthScreen'
 import { styles } from './styles'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import { firebaseApp } from '../../../firebase'
+import { setIsAuthenticating } from '../../redux/auth/authSlice'
 
 const defaultValues = { email: '', password: '' }
 
@@ -30,7 +33,9 @@ const validationSchema = yup.object({
 })
 
 function SignIn({ navigation, route }) {
+  const dispatch = useDispatch()
   const { email } = route.params || {}
+  const auth = getAuth(firebaseApp)
 
   const {
     control,
@@ -45,11 +50,13 @@ function SignIn({ navigation, route }) {
 
   const onSignIn = async (values) => {
     try {
-      const auth = getAuth(firebaseApp)
       const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password)
       if (userCredentials) {
         Toast.show({ type: 'success', text1: 'Success' })
         reset(defaultValues)
+
+        dispatch(setIsAuthenticating(true))
+        await AsyncStorage.setItem('userUid', userCredentials.user.uid)
       } else {
         Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
       }

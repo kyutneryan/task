@@ -15,7 +15,7 @@ function AuthNavigation() {
       <Navigator
         initialRouteName={SIGN_IN_ROUTE_NAME}
         backBehavior="none"
-        keyboardDismissMode="auto"
+        keyboardDismissMode="on-drag"
         screenOptions={{
           swipeEnabled: false,
           tabBarActiveTintColor: DARK_BLUE_COLOR,

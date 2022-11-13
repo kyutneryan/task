@@ -6,7 +6,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import Toast from 'react-native-toast-message'
 import { Controller, useForm } from 'react-hook-form'
 import { SIGN_IN_ROUTE_NAME } from '../../constants/routes'
-import { VALIDATION_MESSAGES } from '../../constants/errors'
+import { ERROR_MESSAGES, VALIDATION_MESSAGES } from '../../constants/errors'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
@@ -48,16 +48,16 @@ function SignUp({ navigation }) {
     try {
       const auth = getAuth(firebaseApp)
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+
       if (userCredentials) {
         Toast.show({ type: 'success', text1: 'Success' })
         reset(defaultValues)
-        navigation.navigate(SIGN_IN_ROUTE_NAME, { email })
+        navigation.navigate(SIGN_IN_ROUTE_NAME, { email: userCredentials.user.email })
+      } else {
+        Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
       }
     } catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: e.message,
-      })
+      Toast.show({ type: 'error', text1: e.message })
     }
   }
 

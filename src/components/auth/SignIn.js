@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -9,6 +9,8 @@ import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
 import { styles } from './styles'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
+
+const defaultValues = { email: '', password: '' }
 
 const validationSchema = yup.object({
   email: yup
@@ -25,22 +27,29 @@ const validationSchema = yup.object({
 })
 
 function SignIn({ navigation, route }) {
-  const defaultValues = { email: route.params?.email || '', password: '' }
+  const { email } = route.params || {}
 
   const {
     control,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues,
     resolver: yupResolver(validationSchema),
   })
 
-  const onSignIn = async ({ email, password }) => {
-    console.log(email, password)
-    reset({ email: '', password: '' })
+  const onSignIn = async (values) => {
+    console.log(values.email, values.password)
+    reset(defaultValues)
   }
+
+  useEffect(() => {
+    if (email) {
+      setValue('email', email)
+    }
+  }, [email, setValue])
 
   return (
     <AuthScreen

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
@@ -37,6 +38,7 @@ const validationSchema = yup.object({
 
 const SignUp = ({ navigation }) => {
   const dispatch = useDispatch()
+  const focused = useIsFocused()
 
   const {
     control,
@@ -67,6 +69,12 @@ const SignUp = ({ navigation }) => {
       dispatch(setIsLoading(false))
     }
   }
+
+  useEffect(() => {
+    if (!focused) {
+      reset(defaultValues)
+    }
+  }, [focused, reset])
 
   return (
     <AuthScreen

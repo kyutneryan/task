@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Controller, useForm } from 'react-hook-form'
+import { useIsFocused } from '@react-navigation/native'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
@@ -35,6 +36,8 @@ const validationSchema = yup.object({
 
 const SignIn = ({ navigation, route }) => {
   const dispatch = useDispatch()
+  const focused = useIsFocused()
+
   const { email } = route.params || {}
   const auth = getAuth(firebaseApp)
 
@@ -74,6 +77,12 @@ const SignIn = ({ navigation, route }) => {
       setValue('email', email)
     }
   }, [email, setValue])
+
+  useEffect(() => {
+    if (!focused) {
+      reset(defaultValues)
+    }
+  }, [focused, reset])
 
   return (
     <AuthScreen

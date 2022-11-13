@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
@@ -12,6 +13,7 @@ import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
 import { firebaseApp } from '../../../firebase'
 import { styles } from './styles'
+import { setIsLoading } from '../../redux/loading/loadingSlice'
 
 const defaultValues = { email: '', password: '', confirmPassword: '' }
 
@@ -34,6 +36,8 @@ const validationSchema = yup.object({
 })
 
 const SignUp = ({ navigation }) => {
+  const dispatch = useDispatch()
+
   const {
     control,
     reset,
@@ -46,6 +50,7 @@ const SignUp = ({ navigation }) => {
 
   const onSignUp = async ({ email, password }) => {
     try {
+      dispatch(setIsLoading(true))
       const auth = getAuth(firebaseApp)
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
 
@@ -56,8 +61,10 @@ const SignUp = ({ navigation }) => {
       } else {
         Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
       }
+      dispatch(setIsLoading(false))
     } catch (e) {
       Toast.show({ type: 'error', text1: e.message })
+      dispatch(setIsLoading(false))
     }
   }
 

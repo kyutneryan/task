@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const CircularLoading = () => (
-  <View style={StyleSheet.flatten([styles.container, styles.modeInitial])}>
+const CircularLoading = ({ backgroundColor }) => (
+  <View style={StyleSheet.flatten([styles.container, styles.modeInitial, { backgroundColor }])}>
     <ActivityIndicator size="large" animating color={LIGHT_BLUE_COLOR} />
     <Text style={styles.text}>Loading</Text>
   </View>

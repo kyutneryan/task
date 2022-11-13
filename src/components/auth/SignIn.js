@@ -15,6 +15,7 @@ import { styles } from './styles'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
 import { firebaseApp } from '../../../firebase'
 import { setIsAuthenticating } from '../../redux/auth/authSlice'
+import { setIsLoading } from '../../redux/loading/loadingSlice'
 
 const defaultValues = { email: '', password: '' }
 
@@ -50,6 +51,7 @@ const SignIn = ({ navigation, route }) => {
 
   const onSignIn = async (values) => {
     try {
+      dispatch(setIsLoading(true))
       const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password)
       if (userCredentials) {
         Toast.show({ type: 'success', text1: 'Success' })
@@ -60,7 +62,9 @@ const SignIn = ({ navigation, route }) => {
       } else {
         Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
       }
+      dispatch(setIsLoading(false))
     } catch (e) {
+      dispatch(setIsLoading(false))
       Toast.show({ type: 'error', text1: e.message })
     }
   }

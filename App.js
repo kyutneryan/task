@@ -45,7 +45,7 @@ const App = () => {
   }, [dispatch, loggedInUser])
 
   if (isAuthenticating) {
-    return <CircularLoading />
+    return <CircularLoading backgroundColor="white" />
   }
 
   if (!loggedInUser) {

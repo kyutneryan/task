@@ -7,7 +7,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { firebaseApp } from '../../../firebase'
-import { LIGHT_BLUE_COLOR } from '../../constants/colors'
+import { LIGHT_BLUE_COLOR, WHITE_COLOR } from '../../constants/colors'
 import { TOAST_MESSAGE_TYPES, USER_UID } from '../../constants/common'
 import { ERROR_MESSAGES } from '../../constants/errors'
 import { setIsLoading } from '../../redux/loading/loadingSlice'
@@ -65,7 +65,7 @@ const Main = () => {
   }, [getPhonePhotos])
 
   if (loading) {
-    return <CircularLoading backgroundColor="white" />
+    return <CircularLoading backgroundColor={WHITE_COLOR} />
   }
 
   return (

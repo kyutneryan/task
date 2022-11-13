@@ -2,7 +2,7 @@ import { PermissionsAndroid, Platform } from 'react-native'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import Toast from 'react-native-toast-message'
 import { ERROR_MESSAGES } from '../../constants/errors'
-import { TOAST_MESSAGE_TYPES } from '../../constants/common'
+import { OS_TYPES, TOAST_MESSAGE_TYPES } from '../../constants/common'
 
 async function hasAndroidPermission() {
   try {
@@ -22,7 +22,7 @@ async function hasAndroidPermission() {
 
 export async function getPhotos() {
   try {
-    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+    if (Platform.OS === OS_TYPES.android && !(await hasAndroidPermission())) {
       return []
     }
 

@@ -15,6 +15,7 @@ import {
 import CircularLoading from './src/components/core/Loading/CircularLoading'
 import { selectIsLoading } from './src/redux/loading/loadingSlice'
 import { USER_UID } from './src/constants/common'
+import { WHITE_COLOR } from './src/constants/colors'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -46,7 +47,7 @@ const App = () => {
   }, [dispatch, loggedInUser])
 
   if (isAuthenticating) {
-    return <CircularLoading backgroundColor="white" />
+    return <CircularLoading backgroundColor={WHITE_COLOR} />
   }
 
   if (!loggedInUser) {

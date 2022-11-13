@@ -17,6 +17,7 @@ function AuthNavigation() {
         backBehavior="none"
         keyboardDismissMode="auto"
         screenOptions={{
+          swipeEnabled: false,
           tabBarActiveTintColor: DARK_BLUE_COLOR,
           tabBarIndicatorStyle: {
             backgroundColor: LIGHT_BLUE_COLOR,

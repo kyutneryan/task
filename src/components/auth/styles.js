@@ -6,11 +6,13 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   root: {
-    flex: 1,
-    justifyContent: 'space-between',
     backgroundColor: GHOST_WHITE_COLOR,
     paddingHorizontal: 14,
     paddingVertical: 28,
+  },
+  rootContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   footer: {
     alignItems: 'center',

@@ -15,7 +15,7 @@ const { width } = Dimensions.get('window')
 
 const Item = ({ item }) => (
   <View style={styles.imageBox}>
-    <Image style={styles.image} source={item.node.image} />
+    <Image style={styles.image} resizeMode="cover" source={item.node.image} />
   </View>
 )
 
@@ -29,7 +29,7 @@ function Main() {
 
   const signOut = async () => {
     try {
-      await AsyncStorage.setItem('isUserExist', false)
+      await AsyncStorage.setItem('userUid', '')
       await auth.signOut()
     } catch {
       Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
@@ -53,8 +53,8 @@ function Main() {
   return (
     <SafeAreaView style={styles.safeAreaView} edges={['top']}>
       <View style={styles.root}>
-        {!!error && <Text>{error.message}</Text>}
-        {!!photos.length && (
+        {!!error && <Text style={styles.text}>{error.message}</Text>}
+        {photos.length ? (
           <>
             <Carousel
               data={photos}
@@ -63,7 +63,7 @@ function Main() {
               itemWidth={width}
               onSnapToItem={(index) => setActiveSlide(index)}
             />
-            <Text style={styles.email}>{currentUser.email}</Text>
+            <Text style={styles.text}>{currentUser.email}</Text>
             <Button title="Sign Out" color={DARK_BLUE_COLOR} onPress={signOut} />
             <Pagination
               dotsLength={photos.length}
@@ -73,6 +73,11 @@ function Main() {
               inactiveDotScale={0.7}
               animatedDuration={100}
             />
+          </>
+        ) : (
+          <>
+            <Text style={styles.text}>No Photos Yet</Text>
+            <Button title="Sign Out" color={DARK_BLUE_COLOR} onPress={signOut} />
           </>
         )}
       </View>

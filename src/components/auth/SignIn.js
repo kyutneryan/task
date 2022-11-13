@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import { Button, View } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
+import Toast from 'react-native-toast-message'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { SIGN_UP_ROUTE_NAME } from '../../constants/routes'
-import { VALIDATION_MESSAGES } from '../../constants/errors'
+import { ERROR_MESSAGES, VALIDATION_MESSAGES } from '../../constants/errors'
 import TextField from '../core/TextField/TextField'
 import AuthScreen from './AuthScreen'
 import { styles } from './styles'
 import { LIGHT_BLUE_COLOR } from '../../constants/colors'
+import { firebaseApp } from '../../../firebase'
 
 const defaultValues = { email: '', password: '' }
 
@@ -41,8 +44,18 @@ function SignIn({ navigation, route }) {
   })
 
   const onSignIn = async (values) => {
-    console.log(values.email, values.password)
-    reset(defaultValues)
+    try {
+      const auth = getAuth(firebaseApp)
+      const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password)
+      if (userCredentials) {
+        Toast.show({ type: 'success', text1: 'Success' })
+        reset(defaultValues)
+      } else {
+        Toast.show({ type: 'error', text1: ERROR_MESSAGES.somethingWentWrong })
+      }
+    } catch (e) {
+      Toast.show({ type: 'error', text1: e.message })
+    }
   }
 
   useEffect(() => {

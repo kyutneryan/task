@@ -24,10 +24,9 @@ let firebaseApp
 
 if (getApps().length === 0) {
   firebaseApp = initializeApp(firebaseConfig)
+  initializeAuth(firebaseApp, { persistence: getReactNativePersistence(AsyncStorage) })
 } else {
   firebaseApp = getApp()
 }
 
 export { firebaseApp }
-
-initializeAuth(firebaseApp, { persistence: getReactNativePersistence(AsyncStorage) })
